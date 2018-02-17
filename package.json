@@ -1,0 +1,19 @@
+{
+  "name": "cardprint",
+  "version": "1.0.0",
+  "description": "TCS209X Card Print",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^1.7.12",
+    "electron-rebuild": "^1.7.3",
+    "remote": "^0.2.6",
+    "serialport": "^6.0.4"
+  },
+  "scripts": {
+    "start": "node_modules/.bin/electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Keita Hagimoto",
+  "license": "UNLICENSED"
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>カード発行</title>
+  <style>
+    .caption {
+      display: inline-block;
+      width: 80px
+    }
+
+    .sub-caption {
+      display: inline-block;
+      margin-left: 20px;
+      width: 60px
+    }
+
+    #message {
+      vertical-align: text-top
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <p>
+      <label class="caption" for="cname">お名前</label>
+      <input id="cname" name="" type="text" value="" placeholder="アース">
+      <span>様</span>
+    </p>
+    <p>
+      <label class="caption" for="cno">カルテNo.</label>
+      <input id="cno" name="" type="number" value="" placeholder="12345" min="0" max="9999999999">
+    </p>
+    <p>
+      <label class="caption" for="message">メッセージ</label>
+      <br>
+      <label class="sub-caption" for="message1">１行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+      <br>
+      <label class="sub-caption" for="message1">２行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+      <br>
+      <label class="sub-caption" for="message1">３行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+    </p>
+    <button id="load-btn">カード読取</button>
+    <button id="save-btn">カード書込</button>
+  </form>
+</body>
+<script>
+  require('./renderer.js');
+  //let loadBtn = document.getElementById('load-btn');
+</script>
+</html>
