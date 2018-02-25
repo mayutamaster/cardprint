@@ -17,10 +17,33 @@ const port = new SerialPort('COM3', { // Windows
 });
 
 port.on('open', function (err) {
-  console.log('Serial open.');
   if (err) {
     return console.error('Error:', err);
   }
-
-  funcs.sendCmd('RJ', '00', port);
+  console.log(port.path, 'Serial open.');
 });
+
+
+const getVresion = async () => {
+  let res = await funcs.sendCmd('rv', '00', port);
+  console.debug(res);
+};
+
+const getStatus = () => {
+  funcs.sendCmd('rJ', '00', port);
+};
+
+
+
+let loadBtn = document.getElementById('load-btn');
+
+
+// debug
+let getVerBtn = document.getElementById('get-ver');
+getVerBtn.addEventListener('click', function(e) {
+  getVresion();
+})
+let getStatBtn = document.getElementById('get-stat');
+getStatBtn.addEventListener('click', function(e) {
+  getStatus();
+})
