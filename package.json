@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "TCS209X Card Print",
   "main": "main.js",
-  "dependencies": {},
+  "dependencies": {
+    "iconv-lite": "^0.4.19"
+  },
   "devDependencies": {
     "electron": "^1.7.12",
     "electron-rebuild": "^1.7.3",

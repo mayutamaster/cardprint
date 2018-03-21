@@ -1,5 +1,7 @@
 "use strict";
 
+const iconv = require('iconv-lite');
+
 // 制御文字
 const NUL = '\x00';
 const STX = '\x02';
@@ -24,6 +26,18 @@ function readable(data) {
   data = data.replace(CR, '[CR]\n')
   return data
 }
+
+function encSJIS(data) {
+  let buf = iconv.encode(data, 'Shift_JIS');
+  return buf.toString('binary');
+};
+module.exports.encSJIS = encSJIS;
+
+function decSJIS(data) {
+  let buf = Buffer.from(data, 'binary');
+  return iconv.decode(buf, 'Shift_JIS');
+};
+module.exports.decSJIS = decSJIS;
 
 async function _send(data, port) {
   if (port && port.writable) {
@@ -152,6 +166,9 @@ function analyzeMsg(msg) {
   let strId = strMsgBody.substr(3, 2);
   let strData = strMsgBody.slice(5, -1);
   let strBcc = strMsg.substr(idxEtx + 1, 2);
+
+  console.debug(Buffer.from(msg, 'binary').toString('hex'));
+
   return {
     msgFull: strMsg,
     msgBody: strMsgBody,
