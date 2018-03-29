@@ -14,9 +14,9 @@ let mainWindow = null;
 
 // 全てのウィンドウが閉じたら終了
 app.on("window-all-closed", () => {
-  if (process.platform != "darwin") {
-    app.quit();
-  }
+  //if (process.platform != "darwin") {
+  app.quit();
+  //}
 });
 
 
