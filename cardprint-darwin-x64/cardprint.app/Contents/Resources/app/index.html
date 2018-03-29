@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>カード発行</title>
+  <style>
+    .caption {
+      display: inline-block;
+      width: 80px
+    }
+
+    .sub-caption {
+      display: inline-block;
+      margin-left: 20px;
+      width: 60px
+    }
+
+    #message {
+      vertical-align: text-top
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+    <p>
+      <label class="caption" for="cname">お名前</label>
+      <input id="cname" name="cname" type="text" value="" placeholder="アース">
+      <span>様</span>
+    </p>
+    <p>
+      <label class="caption" for="message">メッセージ</label>
+      <br>
+      <label class="sub-caption" for="message1">１行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+      <br>
+      <label class="sub-caption" for="message1">２行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+      <br>
+      <label class="sub-caption" for="message1">３行目</label>
+      <input id="message1" name="" type="text" value="" placeholder="">
+    </p>
+    <button id="load-btn" type="button">カード読取</button>
+    <button id="save-btn" type="button">カード書込</button>
+    <p>
+      <p>debug</p>
+      <button id="get-ver" type="button">バージョン取得</button>
+      <button id="get-stat" type="button">ステータス取得</button>
+      <button id="get-cdat" type="button">カードデータ要求</button>
+      <button id="get-name" type="button">名前取得</button>
+      <button id="set-name" type="button">名前登録</button>
+      <button id="regist" type="button">実行</button>
+      <button id="cancel" type="button">取消</button>
+      <div>
+        <label for="ver-code">機種コード</label><input type="text" id="ver-code"><br>
+        <label for="ver-sver">端末ソフトバージョン</label><input type="text" id="ver-sver"><br>
+        <label for="ver-mode">運用モード</label><input type="text" id="ver-mode"><br>
+        <label for="ver-card">カード媒体</label><input type="text" id="ver-card"><br>
+        <label for="var-memc">メモリカード</label><input type="text" id="ver-memc"><br>
+        <label for="ver-yobi">予備</label><input type="text" id="ver-yobi">
+      </div>
+    </p>
+  </form>
+</body>
+<script>
+  require('./renderer.js');
+</script>
+</html>

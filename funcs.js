@@ -18,11 +18,11 @@ function readable(data) {
   data = data.toString()
   data = data.replace(ACK, '[ACK]')
   data = data.replace(NUL, '[NUL]')
-  data = data.replace(ENQ, '\n[ENQ]')
-  data = data.replace(EOT, '\n[EOT]')
+  data = data.replace(ENQ, '[ENQ]')
+  data = data.replace(EOT, '[EOT]')
   data = data.replace(ETX, '[ETX]')
   data = data.replace(STX, '[STX]')
-  data = data.replace(NAK, '\n[NAK]')
+  data = data.replace(NAK, '[NAK]')
   data = data.replace(CR, '[CR]\n')
   return data
 }
@@ -55,24 +55,31 @@ async function _send(data, port) {
       }
 
       console.log('SEND:', readable(data));
-      if (! await port.write(data)) {
+      if (! await port.write(Buffer.from(data, 'binary'))) {
         console.error('SEND COMMAND Faild.');
         return false;
       }
 
       readData = await (new Promise(function (resolve) {
+        let buf = '';
         let recvData = (data) => {
           clearTimeout(tmId);
           waitCnt = 0;
           sendCnt++;
-          resolve(data.toString());
+          for (let i = 0; i < data.length; i++) {
+            buf += String.fromCharCode(data[i]);
+          }
+          if (buf.slice(-1) === CR) {
+            port.removeListener('data', recvData);
+            resolve(buf);
+          }
         };
         let tmId = setTimeout(() => {
           waitCnt++;
           port.removeListener('data', recvData);
           resolve(null);
         }, 3000);
-        port.once('data', recvData);
+        port.on('data', recvData);
       }));
     } while (readData === null || readData === NAK + '00' + CR);
 
@@ -92,7 +99,7 @@ async function _sendOnly(data, port) {
     let waitCnt = 0;
 
     console.log('SEND:', readable(data));
-    if (! await port.write(data)) {
+    if (! await port.write(Buffer.from(data, 'binary'))) {
       console.error('SEND COMMAND Faild.');
       return false;
     }
@@ -160,15 +167,12 @@ function analyzeMsg(msg) {
   let strMsg = msg.toString();
   let idxStx = strMsg.indexOf(STX);
   let idxEtx = strMsg.indexOf(ETX);
-  console.info(idxStx, idxEtx);
   let strMsgBody = strMsg.substr(idxStx, idxEtx - idxStx + 1);
   let strCmd = strMsgBody.substr(1, 2);
   let strId = strMsgBody.substr(3, 2);
   let strData = strMsgBody.slice(5, -1);
   let strBcc = strMsg.substr(idxEtx + 1, 2);
-
-  console.debug(Buffer.from(msg, 'binary').toString('hex'));
-
+  //console.debug(Buffer.from(msg, 'binary').toString('hex'));
   return {
     msgFull: strMsg,
     msgBody: strMsgBody,
@@ -206,7 +210,10 @@ module.exports.mkCmd = mkCmd;
  */
 async function sendCmd(cmd, data, port) {
 
-  if (!port.isOpen) {
+  if (!port) {
+    console.error('port is null.')
+    return false;
+  } else if (!port.isOpen) {
     console.error('port is not Open.')
     return false;
   }
