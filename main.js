@@ -24,7 +24,7 @@ app.on("window-all-closed", () => {
 app.on("ready", () => {
   //ウィンドウサイズを設定する
   //mainWindow = new BrowserWindow({ width: 920, height: 960, useContentSize: true });
-  mainWindow = new BrowserWindow({ width: 400, height: 240, useContentSize: true });
+  mainWindow = new BrowserWindow({ width: 400, height: 260, useContentSize: true });
 
   //使用するhtmlファイルを指定する
   mainWindow.loadURL(`file://${__dirname}/index.html`);

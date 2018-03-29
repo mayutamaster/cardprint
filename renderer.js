@@ -35,7 +35,7 @@ SerialPort.list((err, ports) => {
   ports.forEach((port) => {
     let opt = comNameSel.appendChild(document.createElement('option'));
     opt.textContent = port.comName;
-    port.manufacturer === 'RATOC' && (opt.selected = true);
+    port.manufacturer.match(/ratok/i) && (opt.selected = true);
   });
 });
 
