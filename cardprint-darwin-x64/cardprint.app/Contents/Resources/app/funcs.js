@@ -66,18 +66,19 @@ async function _send(data, port) {
           clearTimeout(tmId);
           waitCnt = 0;
           sendCnt++;
-          for (let i=0; i<data.length; i++) {
-            //console.debug(data[i]);
+          for (let i = 0; i < data.length; i++) {
             buf += String.fromCharCode(data[i]);
           }
-          buf.slice(-1) === CR && resolve(buf);
+          if (buf.slice(-1) === CR) {
+            port.removeListener('data', recvData);
+            resolve(buf);
+          }
         };
         let tmId = setTimeout(() => {
           waitCnt++;
           port.removeListener('data', recvData);
           resolve(null);
         }, 3000);
-        //port.once('data', recvData);
         port.on('data', recvData);
       }));
     } while (readData === null || readData === NAK + '00' + CR);
@@ -209,7 +210,10 @@ module.exports.mkCmd = mkCmd;
  */
 async function sendCmd(cmd, data, port) {
 
-  if (!port.isOpen) {
+  if (!port) {
+    console.error('port is null.')
+    return false;
+  } else if (!port.isOpen) {
     console.error('port is not Open.')
     return false;
   }

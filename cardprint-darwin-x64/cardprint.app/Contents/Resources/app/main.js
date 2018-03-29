@@ -23,12 +23,14 @@ app.on("window-all-closed", () => {
 // Electronの初期化完了後に実行
 app.on("ready", () => {
   //ウィンドウサイズを設定する
-  mainWindow = new BrowserWindow({ width: 920, height: 960, useContentSize: true });
+  //mainWindow = new BrowserWindow({ width: 920, height: 960, useContentSize: true });
+  mainWindow = new BrowserWindow({ width: 400, height: 240, useContentSize: true });
+
   //使用するhtmlファイルを指定する
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 
   // デバッグウインドウ初期表示
-  mainWindow.openDevTools();
+  //mainWindow.openDevTools();
 
   // ウィンドウが閉じられたらアプリも終了
   mainWindow.on("closed", () => {
